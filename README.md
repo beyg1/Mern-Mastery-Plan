@@ -2,33 +2,36 @@
 
 Welcome to MERN Mastery Plan! This roadmap is designed for developers who are already proficient in React/Next.js and have experience building full-stack applications, either with headless CMS like Sanity or Full PostgreSQL Database like Supabase.
 
-## 🔧 Golden Path 
-
+## 🔧 Gold Path Forward
 - Backend: Node.js + Express, Mongoose, MongoDB Atlas, JWT, bcrypt, express-validator, cors, morgan
 - Frontend: Next.js (pick Pages or App Router once and stick to it), built-in fetch
 - Deployment: Vercel (frontend), Render (backend), MongoDB Atlas (DB)
 
-Principles:
-1) Smallest shippable increment each time  
-2) One feature at a time (read → create → update → delete → auth → extras)  
-3) Timebox sprints to 60–120 minutes  
-4) Consistent checklists and success criteria  
-5) Write a short “Next session plan” at the end of each session
-
 ---
+
+Repository layout (per-phase directories):
+- `/phase0-setup`
+- `/phase1-express-in-memory`
+- `/phase2-mongodb-mongoose`
+- `/phase3-next-list-create`
+- `/phase4-next-update-delete`
+- `/phase5-backend-auth`
+- `/phase6-client-auth`
+- `/phase7-quality`
+- `/phase8-deploy`
+- `/phase9-stretch`
+
+Each phase directory is self-contained and may include:
+- `/server` for the Express backend (as needed in that phase)
+- `/client` for the Next.js frontend (App Router; introduced in Phase 3)
+- `.env.sample` files documenting only the variables required for that phase
+- Phase-specific instructions (this README serves as the master guide)
 
 ## 🧪 Phase 0 — Setup Safety Net (30–60 min, beginner-friendly step-by-step)
 
 Goal: Prepare a frictionless environment so you don’t stall later.
 
-What you’re setting up:
-- A Git repo with two folders:
-  - `/server` for the Express backend
-  - `/client` for the Next.js frontend
-- `.env.sample` files to document required environment variables (secrets)
-- Basic scripts so you can run both apps quickly
-
-Step-by-step:
+Step-by-step (Phase 0: inside `/phase0-setup`):
 1) Install prerequisites
    - Node LTS: https://nodejs.org/en (verify with: `node -v`)
    - pnpm: https://pnpm.io/installation (verify with: `pnpm -v`)
@@ -36,9 +39,6 @@ Step-by-step:
 
 2) Initialize repo (root folder of your project)
    - Create a new GitHub repo (e.g., MERN Lab) or a local folder.
-   - In the root, create folders:
-     - `server`
-     - `client`
    - Initialize git in the root:
      - `git init`
      - `git add . && git commit -m "chore: init repo"`
@@ -46,8 +46,8 @@ Step-by-step:
      - `git remote add origin <your-remote-url>`
      - `git push -u origin main` (you can push after you add initial files too)
 
-3) Server scaffold (minimal to verify commands)
-   - Create `/server/package.json` with:
+3) Server scaffold (minimal; inside `/phase0-setup/server`)
+   - Create `/phase0-setup/server/package.json`:
      ```
      {
        "name": "server",
@@ -59,46 +59,41 @@ Step-by-step:
        }
      }
      ```
-   - Create `/server/index.js`:
+   - Create `/phase0-setup/server/index.js`:
      ```
      console.log("Server running. Hello from Express placeholder.");
      ```
-   - Create `/server/.env.sample`:
+   - Create `/phase0-setup/server/.env.sample`:
      ```
      PORT=5000
-     MONGODB_URI=your-mongodb-uri-here
-     JWT_SECRET=your-jwt-secret-here
      ```
    - Note: Do NOT commit real `.env`. Only commit `.env.sample`.
 
-4) Client scaffold (placeholder for now; full setup in Phase 3)
-   - Create `/client/.env.sample`:
+4) Client placeholder for later (inside `/phase0-setup/client`)
+   - Create `/phase0-setup/client/.env.sample`:
      ```
      NEXT_PUBLIC_API_URL=http://localhost:5000
      ```
+   - The actual Next.js app will be created in Phase 3.
 
-5) Root README run instructions (this file)
-   - Keep “How to Run” updated as you progress.
+5) How to run per phase
+   - Backend (Phase 0 placeholder):
+     - `pnpm -C ./phase0-setup/server dev`
+     - `pnpm -C ./phase0-setup/server start`
+   - Frontend will be set up in Phase 3.
 
-6) Verify basic run commands
-   - Backend (will just print “Hello” for now):
-     - `pnpm -C server dev`
-     - `pnpm -C server start`
-   - Frontend: will be set up in Phase 3; for now just ensure the folder exists.
-
-Checklist:
+Checklist (Phase 0):
 - [ ] Install Node LTS, pnpm, and Git  
-- [ ] Create repo with `/server` and `/client`  
-- [ ] Create `.env.sample` in both folders  
-- [ ] Add root README with “How to Run”  
-- [ ] Verify you can run `pnpm -C server dev` (prints “Hello”)
+- [ ] Create `/phase0-setup/server` and `/phase0-setup/client` with `.env.sample` files  
+- [ ] Verify you can run `pnpm -C ./phase0-setup/server dev` (prints “Hello”)
 
-Success Criteria:
+Success Criteria (Phase 0):
 - [ ] Local commands run without errors  
 - [ ] You can push to GitHub
 
 Notes:
 - Keep secrets in `.env` (don’t commit them). Document required variables in `.env.sample`.
+- MongoDB and JWT are not required in Phase 0. They are introduced in later phases.
 
 ---
 
@@ -106,10 +101,10 @@ Notes:
 
 Goal: A simple REST API for tasks backed by an in-memory array. No DB yet.
 
-Install (in `/server`):
+Install (inside `/phase1-express-in-memory/server`):
 - [ ] `pnpm add express cors morgan`
 - [ ] `pnpm add -D nodemon`
-- [ ] Update scripts in `/server/package.json`:
+- [ ] Update scripts in `package.json`:
   ```
   {
     "scripts": {
@@ -139,7 +134,7 @@ How to test quickly with curl:
 - DELETE: `curl -X DELETE http://localhost:5000/api/tasks/<id>`
 
 Run:
-- `pnpm -C server dev`
+- `pnpm -C ./phase1-express-in-memory/server dev`
 
 Success Criteria:
 - [ ] All CRUD operations work via Postman/curl  
@@ -154,11 +149,11 @@ STOP and commit. You now understand backend request/response flows without DB co
 
 Goal: Replace in-memory with MongoDB Atlas and Mongoose model.
 
-Install (in `/server`):
+Install (inside `/phase2-mongodb-mongoose/server`):
 - [ ] `pnpm add mongoose express-validator`
 
 Connect:
-- [ ] Create `/server/.env` with `MONGODB_URI` and `PORT` (e.g., 5000)
+- [ ] Create `/phase2-mongodb-mongoose/server/.env` with `MONGODB_URI` and `PORT` (e.g., 5000)
 - [ ] On server start, connect to Atlas and log success/failure
 - [ ] Handle connection errors and exit or retry appropriately
 
@@ -195,10 +190,10 @@ Tips (beginner-friendly):
 
 ## 🟨 Phase 3 — Next.js Client: List + Create (90–120 min)
 
-Goal: Minimal UI to list tasks and create tasks.
+Goal: Minimal UI (App Router) to list tasks and create tasks.
 
-Setup (in `/client`):
-- [ ] Create Next.js app (App Router example):
+Setup (inside `/phase3-next-list-create/client`):
+- [ ] Create Next.js app (App Router):
   - `pnpm create next-app@latest .`
   - Choose TypeScript if you want; keep defaults simple.
 - [ ] Create `.env.local` with:
@@ -206,7 +201,6 @@ Setup (in `/client`):
   NEXT_PUBLIC_API_URL=http://localhost:5000
   ```
 - [ ] Choose one data fetching strategy and stick to it initially:
-  - Pages Router: `getServerSideProps` or client `useEffect`
   - App Router: server components fetch or client components with `useEffect`
   - Beginner-friendly: client component with `useEffect` + `fetch`
 
@@ -238,7 +232,7 @@ async function createTask(title) {
 ```
 
 Run:
-- `pnpm -C client dev`
+- `pnpm -C ./phase3-next-list-create/client dev`
 - Open `http://localhost:3000`
 
 Success Criteria:
@@ -249,13 +243,18 @@ Success Criteria:
 
 ## 🟪 Phase 4 — Next.js Client: Update + Delete (60–90 min)
 
-Goal: Complete CRUD from the UI.
+Goal: Complete CRUD from the UI (App Router).
+
+Context: continue in `/phase4-next-update-delete/client` (copy from Phase 3 or start fresh as preferred).
 
 Features:
 - [ ] Edit task title (inline input toggle or separate page/modal)  
 - [ ] Delete with a `confirm()` prompt  
 - [ ] Refresh list after success (or refetch call)
   - Tip: keep a reusable `fetchTasks()` function or use SWR/React Query later
+
+Run:
+- `pnpm -C ./phase4-next-update-delete/client dev`
 
 Success Criteria:
 - [ ] Update and delete work reliably  
@@ -267,7 +266,7 @@ Success Criteria:
 
 Goal: Protect routes via JWT, scope tasks per user.
 
-Install (in `/server`):
+Install (inside `/phase5-backend-auth/server`):
 - [ ] `pnpm add bcrypt jsonwebtoken`
 
 User model:
@@ -286,7 +285,7 @@ Task scoping:
 - [ ] All task queries filter by `userId`
 
 JWT tips:
-- Store `JWT_SECRET` in `/server/.env`  
+- Store `JWT_SECRET` in `/phase5-backend-auth/server/.env`  
 - Sign with short payload (e.g., `{ id: user._id }`)  
 - Return 401 for missing/invalid token
 
@@ -299,6 +298,8 @@ Success Criteria:
 ## 🔑 Phase 6 — Client Auth Integration (90–120 min)
 
 Goal: Persist login and call API with token.
+
+Context: `/phase6-client-auth/client` (App Router).
 
 State:
 - [ ] Simple auth context or top-level state + `localStorage`  
@@ -320,6 +321,9 @@ fetch(base + "/api/tasks", {
 });
 ```
 
+Run:
+- `pnpm -C ./phase6-client-auth/client dev`
+
 Success Criteria:
 - [ ] Can register, login, and manage your own tasks
 
@@ -329,13 +333,12 @@ Success Criteria:
 
 Goal: Predictability and maintainability.
 
-Structure:
+Structure (inside `/phase7-quality/server`):
 - [ ] Server folders: `/models`, `/routes`, `/controllers`, `/middleware`, `/utils`  
 - [ ] Add `/health` route
 
-Linting & Tests (in `/server`):
-- [ ] ESLint configured and runs clean or with focused TODOs  
-- [ ] `pnpm add -D jest supertest`  
+Linting & Tests:
+- [ ] `pnpm add -D jest supertest` (inside `/phase7-quality/server`)
 - [ ] One unit test (pure function)  
 - [ ] One integration test (e.g., `POST /tasks` happy path)
 
@@ -345,10 +348,10 @@ Scripts (server `package.json`):
 ```
 
 Run:
-- `pnpm -C server test`
+- `pnpm -C ./phase7-quality/server test`
 
 Success Criteria:
-- [ ] `pnpm -C server test` runs and passes locally  
+- [ ] Tests run and pass locally  
 - [ ] Lint step integrated into dev flow
 
 ---
@@ -357,12 +360,12 @@ Success Criteria:
 
 Goal: Ship the app live.
 
-Backend:
+Backend (from the relevant server inside your chosen phase, e.g., `/phase8-deploy/server`):
 - [ ] Deploy to Render (or similar)  
 - [ ] Set `MONGODB_URI`, `JWT_SECRET` in Render  
 - [ ] CORS for your Vercel domain
 
-Frontend:
+Frontend (from `/phase8-deploy/client`):
 - [ ] Deploy to Vercel  
 - [ ] Set `NEXT_PUBLIC_API_URL` to your Render URL
 
